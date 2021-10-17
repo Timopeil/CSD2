@@ -20,8 +20,8 @@ for Main_NvLc in notevalue_line_count:
 print("LearnMusic After Main set:",LearnMusic)
 
 #for every dictionary in the list "LearnMusic" this loop will creat list called baby, in this list their will be all the possibilities that were in the original midi file.
-beta = None
 for dix_main in LearnMusic:
+    beta = None
     baby = []
     for alpha in notevalue_line: #building the baby
         if beta == None:

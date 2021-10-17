@@ -6,18 +6,19 @@
 import os
 from mido import MidiFile
 
+debug = True
 ##Code
-print("Give me any file")
+print("Give me a midi file")
 input_file = input()
-
-#check if input = a file
-while not os.path.isfile(input_file):
-    print('Thou must enter a file')
+print(input_file)
+#check if input = a midi file
+while not input_file.endswith(".mid") or not input_file.endswith(".MID") and not os.path.isfile(input_file):
+    print('Thou must enter a midi file')
     input_file = input()
-
 else:
     input_file = MidiFile(input_file , clip=True)
-    print("debug_input_file:", input_file)
+    if debug:
+        print("debug_input_file:", input_file)
 
 ## Put all note on in midinote as dictionary
 
