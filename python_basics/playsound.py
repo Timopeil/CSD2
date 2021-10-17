@@ -17,7 +17,7 @@ print('What shoud thou be called?')
 
 username = input()
 
-print('Hello', username , 'How many times shall ye bell toll?' )
+print("Give me a number")
 
 user_input = input()
 

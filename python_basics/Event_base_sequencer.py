@@ -2,12 +2,34 @@
 import time
 import simpleaudio as sa
 import soundfile as sf
+import _thread
 
 #definements
 
-def Playsample():
-                wave_obj = sa.WaveObject.from_wave_file("../ressound/Shakeup.wav")
-                play_obj = wave_obj.play()
+#def Playsample():
+#                wave_obj = sa.WaveObject.from_wave_file("../ressound/Shakeup.wav")
+#                play_obj = wave_obj.play()
+
+def clock(y):
+    def clock_set(x = 0):
+        clock = x
+
+    terminate = 'false'
+    clock_set()
+    clockspeed = clsp = y #per second
+
+    while not terminate:
+
+        clock += 1
+        time.sleep(1/clsp)
+
+#start clockthread
+_thread.start_new_thread(clock(60), ("clockthread"))
+
+
+
+
+
 
 ##Learn music
 bpm = 60

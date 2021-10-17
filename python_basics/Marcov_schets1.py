@@ -1,39 +1,41 @@
+#####################
+## Markov's Brain! ##
+#####################
 
 import random as ra
 
 debug = "true"
 
 #set data
-Wholenote = [
-    {
-        "value":1,
-        "chance_up":0.5,
-        "chance_dwn":0
+#TODO: Will be a system in place to set data (extraceted from a midi file)
+# This list will be constructed in Marcov_schets3.py
+LearnMusic = [
+    {"Main":4, "variables":[
+        {"value":1,"chance_up":0.5,"chance_dwn":0},
+        {"value":2,"chance_up":1,"chance_dwn":0.5},
+     ]
     },
-    {
-        "value":2,
-        "chance_up":1,
-        "chance_dwn":0.5
+    {"Main":3,"variables":[
+        {"value":1,"chance_up":0.5,"chance_dwn":0},
+        {"value":2,"chance_up":1,"chance_dwn":0.5},
+     ]
+    },
+    {"Main":2,"variables":[
+        {"value":0.5,"chance_up":0.5,"chance_dwn":0},
+        {"value":2,"chance_up":1,"chance_dwn":0.5},
+     ]
+    },
+    {"Main":1,"variables":[
+        {"value":3,"chance_up":0.5,"chance_dwn":0},
+        {"value":2,"chance_up":1,"chance_dwn":0.5},
+     ]
+    },
+    {"Main":0.5,"variables":[
+        {"value":1,"chance_up":0.5,"chance_dwn":0},
+        {"value":2,"chance_up":1,"chance_dwn":0.5},
+     ]
     }
-]
-
-Halfnote = [
-    {
-        "value":2,
-        "chance_up":1,
-        "chance_dwn":0
-    }
-
-
-]
-
-Quarternote = [
-    {
-        "value":0,
-        "chance_up":0,
-        "chance_dwn":0
-    }
-]
+    ]
 
 #definements
 ## Sets Markov starting point
@@ -43,39 +45,36 @@ def SetMSP(x):
     if debug:
         print("debug_MSP: Markov startingpoint set to", x)
 
-##LearnMusic Translates note values to corrospondong datavalues
-def LearnMusic(x):
-    if x == 4:
-        return Wholenote
-    elif x == 2:
-        return Halfnote
-    elif x == 1:
-        return Quarternote
-    elif x == 1/5:
-        return Tuplet1_5
-
-
 ##Tableroll rolls a value in the array by its corrospondong chance
+
 def Tableroll(x):
 
     roll = ra.random()
     if debug:
-        print('debug_roll' , roll)
+        print('debug_roll:' , roll)
 
-    for table in x :
-
-        if table["chance_up"] > roll and table["chance_dwn"] < roll:
-            mchain.append(table["value"])
-            if debug:
-                print("debug_mchain", mchain)
-                print("debug_markov value" , mchain[0])
+    for section in x :
+        mchain.reverse()
+        if section["Main"] == mchain[0] :
+            if debug: print("debug_reversemchain", mchain)
+            storetable = section["variables"]
+            for table in storetable :
+                if table["chance_up"] > roll and table["chance_dwn"] < roll:
+                    mchain.reverse()
+                    mchain.append(table["value"])
+                    if debug:
+                        print("debug_mchain", mchain)
+                        print("debug_markov value" , mchain[0])
+        else:
+            mchain.reverse()
 
 #Code
-SetMSP(2)
+SetMSP(4)
 if debug:
     print("debug_mchain", mchain)
     print("debug_markov value" , mchain[0])
-    print("Give me a number")
+
+print("Give me a number")
 
 user_input = input()
 
@@ -86,7 +85,7 @@ while not str.isnumeric(user_input):
 else:
     user_int = int(user_input)
     while user_int > 0:
-        Tableroll(LearnMusic(mchain[0]))
+        Tableroll(LearnMusic)
         if debug:
             print("debug_user_int:",user_int)
         user_int -= 1
