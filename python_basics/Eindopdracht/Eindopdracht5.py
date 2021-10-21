@@ -21,7 +21,7 @@ def ask_user_parameters():
         elif int(user_parameters[1]) < 0:
             print("input error: number in argument 2 is illigal")
         elif int(user_parameters[2]) < 0:
-            print("input error: number in argument 3 can not be less then 1, math error")
+            print("input error: number in argument 3 can not be or be less then 0, math error")
         elif not math.log(int(user_parameters[2]), 2).is_integer():
             print("input error: number in argument 3 is illigal")
         elif not user_parameters[3].isnumeric() and not int(user_parameters[3]) < 1:
