@@ -7,7 +7,6 @@ import random as ra
 debug = "true"
 
 #set data
-#TODO: Will be a system in place to set data (extraceted from a midi file)
 # This list will be constructed in Marcov_schets3.py
 LearnMusic = [
     {"Main":4, "variables":[
