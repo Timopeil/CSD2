@@ -78,6 +78,7 @@ for dix_main in LearnMusic:
     for alpha in notevalue_line: #building the baby
         if beta == None:
            beta = alpha
+
         else:
            if debug:
                 print("dixmain / beta / alpha",dix_main["Main"],beta,alpha)
@@ -86,9 +87,12 @@ for dix_main in LearnMusic:
            beta = alpha
            if debug:
                print("baby:",baby)
-           babydictionary = {}
+    if len(baby) == 0: #baby cant be empty due to devide by 0 later in code, but it might be because the last note value in the midi file is unique to the midi file.
+                       #to fix this it will go on as if the last note came before the first note.
+        baby.append(LearnMusic[1]["Main"])
     chance_up_past = 0
     for value in baby: #building the table
+        print("we went to the for loop")
         babysplice = 1/len(baby)
         chance_dwn = chance_up_past
         chance_up = chance_up_past + babysplice
@@ -130,11 +134,6 @@ def Tableroll(x):
                     if debug:
                         print("debug_mchain", mchain)
                         print("debug_markov value" , mchain[0])
-                else: #failsave for if the mchain is incomplete due to final note being unique to the piece. if so go on as if the final note came before the first note.
-                      #BE CAREFULL: if you temper with the marcov chain, this will make a disfunctional table work while unpacking the nested list.(it will result in the repeating of the first note)
-                    mchain.reverse()
-                    mchain.append(mchain[0])
-                    mchain.reverse()
         else:
             mchain.reverse()
 
@@ -153,7 +152,7 @@ while not str.isnumeric(user_input):
     user_input = input()
 
 else:
-    user_int = int(user_input)
+    user_int = int(user_input) - 1 #asks the user for amount of mchain repetitions #TODO change this to bars in combination with Eindopdacht 5
     while user_int > 0:
         Tableroll(LearnMusic)
         if debug:
