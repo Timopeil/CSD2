@@ -33,14 +33,14 @@ def ask_user_parameters():
 
 def user_GorB():
     print("Good or bad?")
-    user_input_GorB = input()
+    user_input_GorB = None
     while not user_input_GorB == 'good' or not user_input_GorB == 'bad' or not user_input_GorB == 'Good' or not user_input_GorB =='Bad':
         print("Good or bad?")
         user_input_GorB = input()
         if user_input_GorB == 'good' or user_input_GorB == 'Good':
             #marcov_to_midi(mchain) #TODO make this function
             print("Well done")
-            marcov_to_midi(uitput_dictionary)
+            marcov_to_midi(drum_note_line, mchain)
             break
         elif user_input_GorB == "bad" or user_input_GorB == "Bad":
             ask_user_parameters()
