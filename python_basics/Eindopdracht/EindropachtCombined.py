@@ -12,7 +12,7 @@ import math
 from midiutil import MIDIFile
 
 ##set debug mode
-debug = True
+debug = False
 
 #############################################
 ## Make a midi file from the played mchain ##
@@ -32,13 +32,16 @@ def marcov_to_midi(notelist,notevaluelist):
         dictionary = {"note":note,"duration":notevaluelist[index]}
         to_midi_dictionary.append(dictionary)
         index += 1
-        print(dictionary)
-    print(to_midi_dictionary)
+        if debug:
+            print(dictionary)
+    if debug:
+        print(to_midi_dictionary)
     temp_time = 0
     for note in to_midi_dictionary: #writing note to de midifile format in python using midiutil's MIDIFILE
         midifile.addNote(0, 9, note["note"] , temp_time , round(note["duration"]*100)/100 , 100)
         temp_time = temp_time + round(note["duration"]*128)/128
-        print("temp_time:",temp_time)
+        if debug:
+            print("temp_time:",temp_time)
     with open("midiout.mid","wb") as fileout: #writing midifile to path
         midifile.writeFile(fileout)
 
@@ -128,7 +131,8 @@ if debug:
 LearnMusic = []
 
 notevalue_line_count = list(dict.fromkeys(notevalue_line)) #remove upes
-print(notevalue_line_count)
+if debug:
+    print(notevalue_line_count)
 
 
 #we're making a list with dictionaries, in the dictionary ther's a vale Main,
@@ -160,7 +164,6 @@ for dix_main in LearnMusic:
         baby.append(LearnMusic[1]["Main"])
     chance_up_past = 0
     for value in baby: #building the table
-        print("we went to the for loop")
         babysplice = 1/len(baby)
         chance_dwn = chance_up_past
         chance_up = chance_up_past + babysplice
@@ -199,21 +202,23 @@ while not bar_count == 0:
     for section in LearnMusic :
         mchain.reverse()
         if section["Main"] == mchain[0] :
-            if debug: print("debug_reversemchain", mchain)
+            if debug:
+                print("debug_reversemchain", mchain)
             storetable = section["variables"]
             for table in storetable :
                 if table["chance_up"] > roll and table["chance_dwn"] < roll:
                     if round(bar_value) + table["value"] > max_bar_value: #basic math, if the bar would be full or overflow,
-                        print("we did the code")                          #fill up the remaining (if any) and break out of the for loop to go back to the while loop
-                        mchain.reverse()
+                        mchain.reverse()                                  #fill up the remaining (if any) and break out of the for loop to go back to the while loop
                         if not round(max_bar_value-bar_value) == 0: #rounding is difficult! please.
                             mchain.append(round(max_bar_value-bar_value))
-                        print(mchain)
+                        if debug:
+                            print(mchain)
                         bar_count -= 1
                         bar_value = 0
                         break
                     else:
-                        print("Barvalue",bar_value + table["value"] , "<", "max_bar_value", max_bar_value)
+                        if debug:
+                            print("Barvalue",bar_value + table["value"] , "<", "max_bar_value", max_bar_value)
                         mchain.reverse()
                         mchain.append(table["value"])
                         bar_value = bar_value + table["value"]
@@ -304,7 +309,8 @@ while True:
         playmidinote(note_line[ra.randint(1,len(note_line)-1)])
         if timestamp_seq:
             ts = timestamp_seq.pop(0)
-            print("timestamp_seq_after_pop:",timestamp_seq)
+            if debug:
+                print("timestamp_seq_after_pop:",timestamp_seq)
         else:
             time.sleep(1)
             break
