@@ -1,13 +1,4 @@
-///////////////////////////////
-// Instrument classification //
-///////////////////////////////
-
-#include <iostream>
-#include <string>
 #include "Instrument.h"
-
-Instrument::Instrument(){}
-Instrument::~Instrument(){}
 
 class Idiophone: public Instrument {
 public:
@@ -20,6 +11,7 @@ Idiophone::Idiophone(){}
 Idiophone::~Idiophone(){}
 
 int main(){
+  Idiophone anInstrument;
   anInstrument.type = "note";
   std::cout << anInstrument.type; "\n";
   return 0;

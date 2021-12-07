@@ -4,16 +4,13 @@
 class Instrument{
   public:
     Instrument();
+    Instrument::Instrument();
     ~Instrument();
     std::string play;
     bool pitch;
     bool microtonal;
     int numofpitch;
+    string type;
 };
 
-Instrument::Instrument(){}
-Instrument::~Instrument(){}
-
-int main(){
-    
-}
+#endif
