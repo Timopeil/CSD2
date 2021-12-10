@@ -6,7 +6,9 @@
 #include <string>
 #include "Instrument.h"
 
-Instrument::Instrument(){}
+Instrument::Instrument(){
+  type = "note";
+}
 Instrument::~Instrument(){}
 
 class Idiophone: public Instrument {
@@ -20,7 +22,7 @@ Idiophone::Idiophone(){}
 Idiophone::~Idiophone(){}
 
 int main(){
-  anInstrument.type = "note";
-  std::cout << anInstrument.type; "\n";
+  Instrument myInstrument;
+  std::cout << myInstrument.type; "\n";
   return 0;
 }

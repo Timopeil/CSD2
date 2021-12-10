@@ -2,8 +2,9 @@
 // Guitar //
 ////////////
 
-#include <Mat.h>
+#include <iostream>
 #include <string>
+#include "Instrument.h"
 
 class MuzString{
 public:
@@ -11,7 +12,7 @@ public:
   ~MuzString();
   int tenstion;
   int diameter;
-  string material;
+  std::string material;
 };
 
 MuzString::MuzString(){};
@@ -21,15 +22,15 @@ class Guitar: Public Instrument{
 public:
   Guitar();
   ~Guitar();
-  string name;
-  string type;
+  std::string name;
+  std::string type;
 }
 
 Guitar::Guitar(){};
 Guitar::~Guitar(){};
 
-string main() {
+int main() {
  Guitar myGuitar;
- cout << myGuitar << "\n";
+ std::cout << myGuitar << "\n";
  return 0;
 }
