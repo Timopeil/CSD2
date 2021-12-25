@@ -38,12 +38,13 @@ Position::~Position(){}
 
 ///////////////////////////////////
 
-class Marble{
-public:
+class Marble: public{
   Marble();
   ~Marble();
   SetColour();
-  Colour Colour;
+  public Colour{
+
+  }
   int diameter;
   int x;
   int y;
