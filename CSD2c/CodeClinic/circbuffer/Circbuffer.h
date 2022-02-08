@@ -6,14 +6,15 @@ class Circbuffer{
 public:
   Circbuffer(int size);
   ~Circbuffer();
-  void setstart(int index);
   float read();
-  void write(int index, float value);
+  void write(float value, int delay);
 
 private:
   int size;
-  int index;
-  int wrap();
+  int writehead;
+  int readhead;
+  int wrap(int anyhead);
+  float buffer[];
 };
 
 #endif

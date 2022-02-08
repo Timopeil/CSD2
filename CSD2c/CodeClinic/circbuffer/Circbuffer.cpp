@@ -3,27 +3,36 @@
 
 
 Circbuffer::Circbuffer(int size){
-
+  float buffer[size] = {0.};
+ for (int i = 0; i <= size; i++){
+   buffer[i] = 0.;
+ };
 }
 
 Circbuffer::~Circbuffer(){
 
 }
 
-void Circbuffer::setstart(int index){
-
-}
 
 float Circbuffer::read(){
-return 0.;
+  readhead ++;
+  writehead ++;
+  wrap(writehead);
+  return buffer[wrap(readhead)];
 }
 
-void Circbuffer::write(int index, float value){
-
+void Circbuffer::write(float value, int delay){
+  buffer[wrap(writehead+delay)] = {value};
 }
 
-int Circbuffer::wrap(){
-return 0;
+int Circbuffer::wrap(int anyhead){
+  // if (anyhead >= 2 * (size - 1)){
+  //   *error = true;
+  };
+  if (anyhead >= size){
+    anyhead = anyhead - size;
+  };
+  return anyhead;
 }
 
 int main(){
