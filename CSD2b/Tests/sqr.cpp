@@ -10,8 +10,8 @@ Oscilator::Oscilator(float frequency , double samplerate) : frequency(frequency)
 //Sqr constructor and deconstructor
 
 Sqr::Sqr(){
-  Oscilator sqrOscilator
-  sqrOscilato
+  Oscilator sqrOscilator;
+
     std::cout << "Sqr - constructor\n";
     std::cout << "Sqr: " << "\n" << "  frequency: " << frequency << "\n";
   }
