@@ -1,25 +1,31 @@
+#include "oscilator.h"
 #include "sqr.h"
 #include "math.h"
 
-Sqr::Oscilator(float frequency, double samplerate) : type(sqr),frequency(frequency),
-  amplitude(1.0), phase(0), sample(0), samplerate(samplerate)
-{
-  std::cout << "Sqr - constructor\n";
-  std::cout << "Sqr: " << "\n" << "  frequency: " << frequency << "\n";
-}
+
+Oscilator::Oscilator(float frequency , double samplerate) : frequency(frequency),
+  amplitude(1.0), phase(0), sample(0), samplerate(samplerate), type("sqr"),{}
 
 
+//Sqr constructor and deconstructor
+
+Sqr::Sqr(){
+  Oscilator sqrOscilator
+  sqrOscilato
+    std::cout << "Sqr - constructor\n";
+    std::cout << "Sqr: " << "\n" << "  frequency: " << frequency << "\n";
+  }
 
 Sqr::~Sqr() {
   std::cout << "Sqr - destructor\n";
 }
 
-
-float Sqr::getSample() {
+//Main code
+float Oscilator::getSample() {
   return sample;
 }
 
-void Sqr::tick() {
+void Oscilator::tick() {
   // NOTE 1. - frequency / SAMPLERATE can be implemented in a more efficient way
   // NOTE 2. - still need todo 'something' with the phase, see 04_sin_function
   phase += frequency / samplerate;
@@ -31,13 +37,13 @@ void Sqr::tick() {
 }
 
 //getters and setters
-void Sqr::setFrequency(float frequency)
+void Oscilator::setFrequency(float frequency)
 {
   // TODO add check to see if parameter is valid
   this->frequency = frequency;
 }
 
-float Sqr::getFrequency()
+float Oscilator::getFrequency()
 {
   return frequency;
 }

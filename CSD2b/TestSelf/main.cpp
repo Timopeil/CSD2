@@ -1,11 +1,16 @@
 #include <iostream>
 #include <thread>
 #include "jack_module.h"
-#include "oscilator.h"
 #include "math.h"
-//#include "sine.h"
-#include "sqr.h"
+#include "oscilator.h"
 
+/*
+ * NOTE: jack2 needs to be installed
+ * jackd invokes the JACK audio server daemon
+ * https://github.com/jackaudio/jackaudio.github.com/wiki/jackd(1)
+ * on mac, you can start the jack audio server daemon in the terminal:
+ * jackd -d coreaudio
+ */
 
 int main(int argc,char **argv)
 {
@@ -15,19 +20,16 @@ int main(int argc,char **argv)
   // init the jack, use program name as JACK client name
   jack.init(argv[0]);
   double samplerate = jack.getSamplerate();
-  std::cout << "samplerate " << samplerate << '\n';
-  Sqr::Oscilator sqr(220, samplerate);
-  //Sine sine(220, samplerate);
+  Oscilator oscilator(220, samplerate);
 
   float amplitude = 0.15;
   //assign a function to the JackModule::onProces
-  jack.onProcess = [&sqr, &amplitude](jack_default_audio_sample_t *inBuf,
+  jack.onProcess = [&oscilator, &amplitude](jack_default_audio_sample_t *inBuf,
     jack_default_audio_sample_t *outBuf, jack_nframes_t nframes) {
 
     for(unsigned int i = 0; i < nframes; i++) {
-      outBuf[i] = 0.75 * sqr.getSample();
-      //sine.tick();
-      sqr.tick();
+      outBuf[i] = oscilator.getSample() * amplitude;
+      oscilator.tick();
     }
     amplitude = 0.5;
     return 0;

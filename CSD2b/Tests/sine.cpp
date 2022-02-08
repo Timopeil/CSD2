@@ -1,10 +1,11 @@
 #include "sine.h"
 #include "math.h"
 
-Sine::Sine(float frequency, double samplerate) : frequency(frequency),
+Sine::Sine(float frequency, double samplerate) : type("sine"), frequency(frequency),
   amplitude(1.0), phase(0), sample(0), samplerate(samplerate)
 {
   std::cout << "Sine - constructor\n";
+  std::cout << "Sine: " << "\n" << "  frequency: " << frequency << "\n";
 }
 
 
