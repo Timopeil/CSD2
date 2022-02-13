@@ -1,8 +1,8 @@
 CXX= g++
 CXXFLAGS = -I/usr/local/include -Wall -std=c++14
 LDFLAGS=
-SOURCE=Circbuffer.o
-TARGET=example
+SOURCE=Circbuffer.o sqr.o oscillator.o main.o writeToFile.o
+TARGET=circbuffer
 
 $(TARGET) : $(SOURCE)
 	$(CXX) -o $@ $(SOURCE) $(LDFLAGS)

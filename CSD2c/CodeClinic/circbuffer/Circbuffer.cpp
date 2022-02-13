@@ -13,28 +13,30 @@ Circbuffer::~Circbuffer(){
 
 }
 
-
 float Circbuffer::read(){
+  std::cout << "\n debug: read . readhead = "; std::cout << readhead;
   readhead ++;
   writehead ++;
   wrap(writehead);
-  return buffer[wrap(readhead)];
+  wrap(readhead);
+  return buffer[readhead];
 }
 
 void Circbuffer::write(float value, int delay){
-  buffer[wrap(writehead+delay)] = {value};
+  //FIX!, make a reset writehead function
+  writehead = readhead;
+  writehead += delay;
+  wrap(writehead);
+  buffer[writehead] = {value};
 }
 
 int Circbuffer::wrap(int anyhead){
   // if (anyhead >= 2 * (size - 1)){
   //   *error = true;
-  };
-  if (anyhead >= size){
-    anyhead = anyhead - size;
+  //};
+  while (anyhead >= size){
+    anyhead -= size;
+    std::cout << "\n debug: Wrap loop";
   };
   return anyhead;
-}
-
-int main(){
-
 }
