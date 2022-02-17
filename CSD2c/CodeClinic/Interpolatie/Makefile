@@ -1,8 +1,8 @@
 CXX= g++
 CXXFLAGS = -I/usr/local/include -Wall -std=c++14
 LDFLAGS=
-SOURCE=linInp.o
-TARGET=NNMap
+SOURCE=Inpol.o main.o
+TARGET=example
 
 $(TARGET) : $(SOURCE)
 	$(CXX) -o $@ $(SOURCE) $(LDFLAGS)

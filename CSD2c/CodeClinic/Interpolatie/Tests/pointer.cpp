@@ -6,4 +6,3 @@ int main() {
 std::cout << *mypointer << "\n";
   return 0;
 }
-// #endif
