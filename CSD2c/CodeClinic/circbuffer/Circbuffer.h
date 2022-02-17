@@ -4,17 +4,19 @@
 
 class Circbuffer{
 public:
-  Circbuffer(int size);
+  Circbuffer(int a);
   ~Circbuffer();
   float read();
   void write(float value, int delay);
+  void tick();
 
 private:
   int size;
   int writehead;
   int readhead;
   int wrap(int anyhead);
-  float buffer[];
+public:
+  float *buffer;
 };
 
 #endif

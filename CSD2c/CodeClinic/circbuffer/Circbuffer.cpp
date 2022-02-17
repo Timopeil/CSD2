@@ -2,41 +2,41 @@
 #include <iostream>
 
 
-Circbuffer::Circbuffer(int size){
-  float buffer[size] = {0.};
+Circbuffer::Circbuffer(int size):size(size){
+  std::cout << "buffer made with size: " << size << "\n";
+  buffer = new float[size];
  for (int i = 0; i <= size; i++){
-   buffer[i] = 0.;
+   buffer[i] = {0.};
  };
 }
 
 Circbuffer::~Circbuffer(){
-
 }
 
 float Circbuffer::read(){
-  std::cout << "\n debug: read . readhead = "; std::cout << readhead;
+ return buffer[readhead];
+}
+
+void Circbuffer::tick(){
   readhead ++;
   writehead ++;
-  wrap(writehead);
-  wrap(readhead);
-  return buffer[readhead];
+  writehead = wrap(writehead);
+  readhead = wrap(readhead);
+  std::cout << "\n**tick**\n\n";
 }
 
 void Circbuffer::write(float value, int delay){
   //FIX!, make a reset writehead function
   writehead = readhead;
   writehead += delay;
-  wrap(writehead);
+  writehead = wrap(writehead);
   buffer[writehead] = {value};
 }
 
 int Circbuffer::wrap(int anyhead){
-  // if (anyhead >= 2 * (size - 1)){
-  //   *error = true;
-  //};
-  while (anyhead >= size){
-    anyhead -= size;
-    std::cout << "\n debug: Wrap loop";
+  if (anyhead >= size){
+    anyhead =- size;
+    std::cout << "head wrapped \n";
   };
   return anyhead;
 }

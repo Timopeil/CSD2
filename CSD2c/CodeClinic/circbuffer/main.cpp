@@ -9,9 +9,9 @@
 int main(int argc,char **argv)
 {
   // with a 44100 samplerate and 882 frequency --> 50 samples for one cycle
-  float freq = 882;
+  float freq = 4000;
   // set delay to approximately a quarter cycle
-  Circbuffer Circbuffer(200);
+  Circbuffer Circbuffer(20);
 
   //Circbuffer.logAllSettings();
   //log not present in Cirbuffer
@@ -22,12 +22,14 @@ int main(int argc,char **argv)
   // generate 200 samples
   // write sum of output of both the sine directly and the circBuffer to a file
   float squareSample = 0;
-  for(int i = 0; i < 200; i++) {
-    std::cout << "\n i="; std::cout << i;
+  for(int i = 0; i < 100; i++) {
+    std::cout << "for sample: " << i << "\n";
     squareSample = sqr.genNextSample();
-    Circbuffer.write(squareSample, 12);
-    std::cout << Circbuffer.read();
-    fileWriter.write(std::to_string(squareSample + Circbuffer.read()) + "\n");
+    std::cout << "sample made, value: " << squareSample << "\n";
+    Circbuffer.write(squareSample, 10);
+    std::cout << "writing " << squareSample << " + " << Circbuffer.read() << " to file\n";
+    Circbuffer.tick();
+    fileWriter.write(std::to_string((squareSample + Circbuffer.read())*0.5) + "\n");
     // Circbuffer.tick();
     // tick is included in circBuffer::read()
   }
