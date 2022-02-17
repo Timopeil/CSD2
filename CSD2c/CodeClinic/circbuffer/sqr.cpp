@@ -16,7 +16,8 @@ Sqr::~Sqr() {
 
 void Sqr::calcNextSample()
 {
-  if (((int)phase & 1) == 0) {
+  std::cout << "phase: " << phase << "\n";
+  if (phase >= 0.5) {
     sample = 1;
   } else {
     sample = -1;
