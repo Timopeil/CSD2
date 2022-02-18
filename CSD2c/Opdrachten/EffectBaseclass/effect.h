@@ -6,20 +6,32 @@ class effect{
 public:
   effect();
   ~effect();
-  float setDrywet();
+
+//
+  float effectSampleIn();
+  float effectSampleOut();
+  float effectSampleIn_sc();
+//
+  void setDrywet();
   float getDrywet();
+  float applyDrywet();
   void tick();
-  bool toggleBypass();
-  void bypass();
+//
+  void toggleBypass();
+  void setBypass(bool bypass);
+//
+
 
 protected:
-  //drywet between [1,-1]?
+  //drywet between [0, 1]
+  float drySample;
+  float sample;
+  float scSample;
   float dryWet;
   unsigned int samplerate;
   unsigned short int numOfChannels;
   bool bypass;
-
-
-}
+  bool midSide;
+};
 
 #endif
