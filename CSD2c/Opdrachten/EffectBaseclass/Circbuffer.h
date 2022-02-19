@@ -4,6 +4,7 @@
 
 class Circbuffer{
 public:
+  Circbuffer();
   Circbuffer(int a);
   ~Circbuffer();
   float read();

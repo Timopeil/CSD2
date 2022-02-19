@@ -1,6 +1,7 @@
 #include "Circbuffer.h"
 #include <iostream>
 
+Circbuffer::Circbuffer(){};
 
 Circbuffer::Circbuffer(int size):size(size){
   std::cout << "buffer made with size: " << size << "\n";

@@ -7,7 +7,7 @@
 class Delay : public Effect{
 public:
   Delay();
-  Delay(int maxdelay, float samplerate);
+  Delay(int delay, float samplerate);
   ~Delay();
   void in(float sample);
   float out();
@@ -15,5 +15,7 @@ public:
 
 private:
   int delay;
-}
+  Circbuffer Delaybuffer;
+};
+
 #endif
