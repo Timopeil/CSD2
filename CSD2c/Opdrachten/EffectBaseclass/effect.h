@@ -2,35 +2,42 @@
 #define _EFFECT_H_
 #include <iostream>
 
-class effect{
+class Effect{
 public:
-  effect();
-  ~effect();
+  Effect();
+  Effect(float samplerate);
+  ~Effect();
 
 //
-  float effectSampleIn();
+  void setEffectSampleIn(float sample);
+  float getEffectSampleIn();
   float effectSampleOut();
   float effectSampleIn_sc();
+
 //
-  void setDrywet();
+  void setDrywet(float dryWet);
   float getDrywet();
-  float applyDrywet();
-  void tick();
+  void applyDrywet();
+  //void tick();
 //
   void toggleBypass();
   void setBypass(bool bypass);
+  void applyBypass();
 //
+  //multichannel stuff TODO
+  //float panning;
 
 
 protected:
   //drywet between [0, 1]
   float drySample;
   float sample;
-  float scSample;
+  //float scSample;
   float dryWet;
-  unsigned int samplerate;
-  unsigned short int numOfChannels;
+  float samplerate;
   bool bypass;
+  // multichannel stuff unused //TODO
+  short unsigned int numOfChannels;
   bool midSide;
 };
 
