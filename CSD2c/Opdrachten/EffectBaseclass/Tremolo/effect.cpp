@@ -18,7 +18,7 @@ float Effect::getDrywet(){
 };
 
 void Effect::applyDrywet(){
-  sample = sample * dryWet + drySample * 1 - dryWet;
+  sample = drySample * dryWet + sample * 1 - dryWet;
 };
 
 //weet niet waar tick voor is. is later belangrijk denk ik.
@@ -32,7 +32,9 @@ void Effect::setBypass(bool bypass){
   bypass = bypass;
 };
 void Effect::applyBypass(){
-  sample = drySample;
+  if (bypass){
+    sample = drySample;
+  };
 };
 
 // Getters and Setters for the Incomming data. as the sample is private

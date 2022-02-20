@@ -27,19 +27,20 @@ int main(int argc,char **argv)
     squareSample = sqr.genNextSample();
     std::cout << "oscilator sample, value: " << squareSample << "\n";
     //
+    MyTremolo.setEffectSampleIn(squareSample);
+    //
     EffectSample = MyTremolo.effectSampleOut();
     std::cout << "effect sample, value: " << EffectSample <<'\n';
     //
     sampleOut = (squareSample + EffectSample) * 0.5;
     std::cout << "out sample, value : " << sampleOut << '\n';
     //
-    MyTremolo.setEffectSampleIn(squareSample);
     MyTremolo.tick();
     fileWriter.write(std::to_string(sampleOut) + "\n");
   }
 
   std::cout << "\n***** DONE ***** "
-    << "\nWrote the sum of the a square oscillator and a "
+    << "\nWrote the sum of the a square oscillator and an "
     << "effected value to output.csv." << std::endl;
 
   //end the program
