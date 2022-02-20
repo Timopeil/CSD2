@@ -15,7 +15,7 @@ public:
 
 private:
   int delay;
-  Circbuffer Delaybuffer;
+  Circbuffer* Delaybuffer;
 };
 
 #endif

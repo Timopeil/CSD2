@@ -17,15 +17,25 @@ int main(int argc,char **argv)
   WriteToFile fileWriter("output.csv", true);
 
   // generate 100 samples
-  // write sum of output of both the sine directly and the circBuffer to a file
+  // write sum of output of Oscillator and Effect to a file
   float squareSample = 0;
+  float sampleOut = 0;
+  float EffectSample = 0;
   for(int i = 0; i < 100; i++) {
     std::cout << "for sample: " << i << "\n";
+    //
     squareSample = sqr.genNextSample();
-    std::cout << "sample made, value: " << squareSample << "\n";
-    MyDelay.in(squareSample);
+    std::cout << "oscilator sample, value: " << squareSample << "\n";
+    //
+    EffectSample = MyDelay.effectSampleOut();
+    std::cout << "effect sample, value: " << EffectSample <<'\n';
+    //
+    sampleOut = (squareSample + EffectSample) * 0.5;
+    std::cout << "out sample, value : " << sampleOut << '\n';
+    //
+    MyDelay.setEffectSampleIn(squareSample);
     MyDelay.tick();
-    fileWriter.write(std::to_string((squareSample + MyDelay.out())*0.5) + "\n");
+    fileWriter.write(std::to_string(sampleOut) + "\n");
     // Circbuffer.tick();
     // tick is included in circBuffer::read()
   }
