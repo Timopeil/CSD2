@@ -14,9 +14,7 @@ Sine::~Sine() {
   std::cout << "Sine - destructor\n";
 }
 
-void Sine::calcNextSample()
-{
-  std::cout << "oscilator phase: " << phase << "\n";
+void Sine::calcNextSample(){
   phase += frequency / samplerate;
   sample = sin(M_PI * 2 * phase);
   sample *= amplitude;

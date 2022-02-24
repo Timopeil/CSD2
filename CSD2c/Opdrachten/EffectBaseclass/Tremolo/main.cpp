@@ -1,49 +1,77 @@
 #include "tremolo.h"
 #include "sqr.h"
-#include "writeToFile.h"
+#include "jack_module.h"
 #include <iostream>
 #include <thread>
 
-#define SAMPLERATE 44100
-
 int main(int argc,char **argv)
 {
-  // with a 44100 samplerate and 882 frequency --> 50 samples for one cycle
-  float freq = 4000;
-  // set delay
-  Tremolo MyTremolo(100, 0.95, SAMPLERATE);
-  // create Signal in this case its a Square wave
-  Sqr sqr(freq, SAMPLERATE);
-  WriteToFile fileWriter("output.csv", true);
-
-  // generate 100 samples
-  // write sum of output of Oscillator and Effect to a file
+  bool debug = false;
+  //creat jack JackModule
+  JackModule jack;
+  jack.init(argv[0]);
+  //get samplerate from jack
+  double samplerate = jack.getSamplerate();
+  //create sound source parameters
+  float amplitude = 0.5;
+  float freq = 400;
   float squareSample = 0;
-  float sampleOut = 0;
+  //create Signal in this case its a Square wave
+  Sqr sqr(freq, samplerate);
+  //create Effect parameters
+  Tremolo MyTremolo(4, 0.9, samplerate);
   float EffectSample = 0;
-  for(int i = 0; i < 100; i++) {
-    std::cout << "for sample: " << i << "\n";
-    //
-    squareSample = sqr.genNextSample();
-    std::cout << "oscilator sample, value: " << squareSample << "\n";
-    //
-    MyTremolo.setEffectSampleIn(squareSample);
-    //
-    EffectSample = MyTremolo.effectSampleOut();
-    std::cout << "effect sample, value: " << EffectSample <<'\n';
-    //
-    sampleOut = (squareSample + EffectSample) * 0.5;
-    std::cout << "out sample, value : " << sampleOut << '\n';
-    //
-    MyTremolo.tick();
-    fileWriter.write(std::to_string(sampleOut) + "\n");
-  }
+  //Delay MyDelay()
+  //create output variable
+  float sampleOut = 0;
 
-  std::cout << "\n***** DONE ***** "
-    << "\nWrote the sum of the a square oscillator and an "
-    << "effected value to output.csv." << std::endl;
+  jack.onProcess = [&debug, &EffectSample, &MyTremolo, &squareSample, &sqr, &sampleOut, &amplitude](jack_default_audio_sample_t *inBuf,
+    jack_default_audio_sample_t *outBuf, jack_nframes_t nframes) {
 
-  //end the program
-  return 0;
+      for(unsigned int i = 0; i < nframes; i++) {
+        outBuf[i] = sampleOut*amplitude;
+        //
+        squareSample = sqr.genNextSample();
+        //
+        MyTremolo.setEffectSampleIn(squareSample);
+        //
+        EffectSample = MyTremolo.effectSampleOut();
+        //
+        sampleOut = (squareSample + EffectSample) * 0.5;
+
+        if (debug){
+            std::cout << "for sample: " << i << "\n";
+            std::cout << "oscilator sample, value: " << squareSample << "\n";
+            std::cout << "effect sample, value: " << EffectSample <<'\n';
+            std::cout << "out sample, value : " << sampleOut << '\n';
+            std::cout << "\n ***Tick*** \n" << '\n';
+        };
+        //
+        MyTremolo.tick();
+
+      }
+      amplitude = 0.5;
+      return 0;
+    };
+
+    jack.autoConnect();
+
+    //keep the program running and listen for user input, q = quit
+    std::cout << "\n\nPress 'q' when you want to quit the program.\n";
+    bool running = true;
+    while (running)
+    {
+      switch (std::cin.get())
+      {
+        case 'q':
+          running = false;
+          jack.end();
+          break;
+      }
+    }
+
+    //end the program
+    return 0;
+
 
 }

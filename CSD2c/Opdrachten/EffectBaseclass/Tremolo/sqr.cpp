@@ -16,7 +16,6 @@ Sqr::~Sqr() {
 
 void Sqr::calcNextSample()
 {
-  std::cout << "oscilator phase: " << phase << "\n";
   if (phase >= 0.5) {
     sample = 1;
   } else {

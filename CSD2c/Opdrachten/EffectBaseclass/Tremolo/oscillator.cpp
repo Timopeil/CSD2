@@ -6,7 +6,7 @@ Oscillator::Oscillator(float frequency, float samplerate) :
   {
     // TODO - use setFrequency & question Mila
   }
-
+  
 Oscillator::~Oscillator() {}
 
 void Oscillator::initialize(float samplerate)

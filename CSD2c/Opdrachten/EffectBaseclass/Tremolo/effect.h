@@ -39,6 +39,8 @@ protected:
   // multichannel stuff unused //TODO
   short unsigned int numOfChannels;
   bool midSide;
+  //ignore messy debug code,
+  bool debug;
 };
 
 #endif

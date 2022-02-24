@@ -19,7 +19,6 @@ Tremolo::~Tremolo(){
 
 void Tremolo::tick(){
   float lfosample = lfo->genNextSample();
-  std::cout << "lfo value: " << lfosample <<'\n';
-  sample = getEffectSampleIn()*((lfosample-depth+1)*0.25+0.5);
-  std::cout << "\n**tick**\n\n";
+  //Todo remake depth
+  sample = getEffectSampleIn()*(lfosample+1);
 }
