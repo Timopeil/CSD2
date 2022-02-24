@@ -1,8 +1,8 @@
 CXX= g++
 CXXFLAGS = -I/usr/local/include -Wall -std=c++14
 LDFLAGS= -ljack
-SOURCE=main.o effect.o tremolo.o sine.o sqr.o oscillator.o jack_module.o
-TARGET=tremolo
+SOURCE=main.o effect.o tremolo.o sine.o sqr.o oscillator.o jack_module.o delay.o Circbuffer.o
+TARGET=effect
 
 $(TARGET) : $(SOURCE)
 	$(CXX) -o $@ $(SOURCE) $(LDFLAGS)

@@ -19,5 +19,5 @@ void Delay::tick(){
   Delaybuffer->write(getEffectSampleIn(), delay);
   Delaybuffer->tick();
   sample = Delaybuffer->read();
-  std::cout << "\n**tick**\n\n";
+  //std::cout << "\n**tick**\n\n";
 };
