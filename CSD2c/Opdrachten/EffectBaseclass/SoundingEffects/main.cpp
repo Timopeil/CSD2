@@ -1,4 +1,5 @@
 #include "tremolo.h"
+#include "delay.h"
 #include "sqr.h"
 #include "jack_module.h"
 #include <iostream>
@@ -21,11 +22,11 @@ int main(int argc,char **argv)
   //create Effect parameters
   Tremolo MyTremolo(4, 0.9, samplerate);
   float EffectSample = 0;
-  //Delay MyDelay()
+  Delay MyDelay(200, samplerate);
   //create output variable
   float sampleOut = 0;
 
-  jack.onProcess = [&debug, &EffectSample, &MyTremolo, &squareSample, &sqr, &sampleOut, &amplitude](jack_default_audio_sample_t *inBuf,
+  jack.onProcess = [&debug, &EffectSample, &MyTremolo, &MyDelay, &squareSample, &sqr, &sampleOut, &amplitude](jack_default_audio_sample_t *inBuf,
     jack_default_audio_sample_t *outBuf, jack_nframes_t nframes) {
 
       for(unsigned int i = 0; i < nframes; i++) {
@@ -35,9 +36,11 @@ int main(int argc,char **argv)
         //
         MyTremolo.setEffectSampleIn(squareSample);
         //
-        EffectSample = MyTremolo.effectSampleOut();
+        MyDelay.setEffectSampleIn(MyTremolo.effectSampleOut());
         //
-        sampleOut = (squareSample + EffectSample) * 0.5;
+        EffectSample = MyDelay.effectSampleOut();
+        //
+        sampleOut = EffectSample;
 
         if (debug){
             std::cout << "for sample: " << i << "\n";
@@ -47,6 +50,7 @@ int main(int argc,char **argv)
             std::cout << "\n ***Tick*** \n" << '\n';
         };
         //
+        MyDelay.tick();
         MyTremolo.tick();
 
       }
@@ -67,6 +71,8 @@ int main(int argc,char **argv)
           running = false;
           jack.end();
           break;
+        case 'h':
+          std::cout << "Hello world, i can be controlled" << '\n';
       }
     }
 
