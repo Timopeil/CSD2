@@ -37,8 +37,8 @@ void Circbuffer::write(float value, int delay){
 }
 
 int Circbuffer::wrap(int anyhead){
-  if (anyhead >= size + 1){
-    anyhead = 0;
+  if (anyhead >= size){
+    anyhead -= size;
   };
   return anyhead;
 }

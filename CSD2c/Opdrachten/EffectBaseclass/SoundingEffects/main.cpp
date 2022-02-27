@@ -15,24 +15,25 @@ int main(int argc,char **argv)
   double samplerate = jack.getSamplerate();
   //create sound source parameters
   float amplitude = 0.5;
-  float freq = 400;
+  float freq = 800;
   float squareSample = 0;
   //create Signal in this case its a Square wave
-  Sqr sqr(freq, samplerate);
+  Sine sine(freq, samplerate);
   //create Effect parameters
-  Tremolo MyTremolo(4, 0.9, samplerate);
+  Tremolo MyTremolo(0.3, 0.2, samplerate);
   float EffectSample = 0;
-  Delay MyDelay(200, samplerate);
+  Delay MyDelay(20, samplerate);
+  MyDelay.setDrywet(0.5);
   //create output variable
   float sampleOut = 0;
 
-  jack.onProcess = [&debug, &EffectSample, &MyTremolo, &MyDelay, &squareSample, &sqr, &sampleOut, &amplitude](jack_default_audio_sample_t *inBuf,
+  jack.onProcess = [&debug, &EffectSample, &MyTremolo, &MyDelay, &squareSample, &sine, &sampleOut, &amplitude](jack_default_audio_sample_t *inBuf,
     jack_default_audio_sample_t *outBuf, jack_nframes_t nframes) {
 
       for(unsigned int i = 0; i < nframes; i++) {
         outBuf[i] = sampleOut*amplitude;
         //
-        squareSample = sqr.genNextSample();
+        squareSample = sine.genNextSample();
         //
         MyTremolo.setEffectSampleIn(squareSample);
         //
@@ -47,7 +48,7 @@ int main(int argc,char **argv)
             std::cout << "oscilator sample, value: " << squareSample << "\n";
             std::cout << "effect sample, value: " << EffectSample <<'\n';
             std::cout << "out sample, value : " << sampleOut << '\n';
-            std::cout << "\n ***Tick*** \n" << '\n';
+            std::cout << "\n ***Tick*** \n\n";
         };
         //
         MyDelay.tick();
@@ -72,12 +73,62 @@ int main(int argc,char **argv)
           jack.end();
           break;
         case 'h':
-          std::cout << "Hello world, i can be controlled" << '\n';
+          std::cout << "Hello! , I can be controlled" << '\n';
+          break;
+
+        //Controll Delay drywet
+        //dupe code TODO make a function
+        case '+':
+          if(MyDelay.getDrywet() >= 1){
+            std::cout << "Drywet can't be Increased" << '\n';
+            break;}
+          else{
+            MyDelay.setDrywet(MyDelay.getDrywet() + 0.05);
+            std::cout << MyDelay.getDrywet() << '\n';
+            std::cout << "Delay DryWet Increased" << '\n';
+          };
+          break;
+        case '-':
+          if(MyDelay.getDrywet() <= 0){
+            std::cout << "Drywet can't be decreased" << '\n';
+            break;}
+          else{
+            MyDelay.setDrywet(MyDelay.getDrywet() - 0.05);
+            //Bug reads back underflowed value if getDrywet = 0; code works ui problem.
+            std::cout << MyDelay.getDrywet() <<"\nDelay DryWet decreased" << '\n';
+          };
+          break;
+          //Controll Tremolo depth
+          case '1':
+            if(MyTremolo.getDepth() >= 1){
+              std::cout << "Depth can't be Increased" << '\n';
+              break;}
+            else{
+              MyTremolo.setDepth(MyTremolo.getDepth() + 0.05);
+              std::cout << MyTremolo.getDepth() << '\n';
+              std::cout << "Tremolo Depth Increased" << '\n';
+            };
+            break;
+          case '2':
+            if(MyTremolo.getDepth() <= 0){
+              std::cout << "Depth can't be decreased" << '\n';
+              break;}
+            else{
+              MyTremolo.setDepth(MyTremolo.getDepth() - 0.05);
+              //Bug reads back underflowed value if getDepth = 0; code works ui problem.
+              std::cout << MyTremolo.getDepth() <<"\nTremolo Depth decreased" << '\n';
+            };
+            break;
+
+
+
+          //
+        case 'd':
+          if(debug){debug = false;}else{debug = true;};
+          break;
+
       }
     }
 
-    //end the program
     return 0;
-
-
 }

@@ -9,8 +9,8 @@ Effect::Effect(float samplerate) : sample(0), samplerate(samplerate){
 Effect::~Effect(){};
 
 // Setters and getters for Drywet //  Apllies drywet as ratio
-void Effect::setDrywet(float drywet){
-  drywet = dryWet;
+void Effect::setDrywet(float value){
+  dryWet = value;
 };
 
 float Effect::getDrywet(){

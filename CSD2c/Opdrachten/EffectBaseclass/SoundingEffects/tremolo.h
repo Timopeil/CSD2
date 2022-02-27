@@ -10,6 +10,8 @@ public:
   Tremolo(float frequency, float depth, float samplerate);
   ~Tremolo();
   void tick();
+  void setDepth(float value);
+  float getDepth();
 
 protected:
   float depth;
