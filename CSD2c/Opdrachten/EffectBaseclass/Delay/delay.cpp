@@ -18,6 +18,12 @@ Delay::~Delay(){
 void Delay::tick(){
   Delaybuffer->write(getEffectSampleIn(), delay);
   Delaybuffer->tick();
-  sample = Delaybuffer->read();
+  int i = 0;
+    if (i <= delay) {
+    sample = drySample;
+    i ++;
+  } else{
+    sample = Delaybuffer->read();
+  };
   std::cout << "\n**tick**\n\n";
 };

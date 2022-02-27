@@ -17,7 +17,9 @@ Sqr::~Sqr() {
 void Sqr::calcNextSample()
 {
   std::cout << "oscilator phase: " << phase << "\n";
-  if (phase >= 0.5) {
+  // QuickFix:
+  //.0001 else youll get rounding issues if used as nyquist oscillator
+  if (phase >= 0.50000000000001) {
     sample = 1;
   } else {
     sample = -1;

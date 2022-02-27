@@ -6,12 +6,24 @@
 
 #define SAMPLERATE 44100
 
+
+//convererts samples to microseconds for given Samplerate
+float STMS(float value){
+  return value / SAMPLERATE * 1000;
+};
+//converts microseconds to samples for given Samplerate
+float MSTS(float value){
+ return SAMPLERATE * value / 1000;
+};
+
 int main(int argc,char **argv)
 {
   // with a 44100 samplerate and 882 frequency --> 50 samples for one cycle
-  float freq = 4000;
+  float freq = 8000;
   // set delay
   Delay MyDelay(20, SAMPLERATE);
+  //set drywet cause 100% wet does nothing
+  MyDelay.setDrywet(0.5);
   // create Signal in this case its a Square wave
   Sqr sqr(freq, SAMPLERATE);
   WriteToFile fileWriter("output.csv", true);
