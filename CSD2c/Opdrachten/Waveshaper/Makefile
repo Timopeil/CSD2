@@ -1,6 +1,6 @@
 CXX= g++
 CXXFLAGS = -I/usr/local/include -Wall -std=c++14
-LDFLAGS=
+LDFLAGS= -ljack
 SOURCE=main.o effect.o jack_module.o waveshaper.o sine.o oscillator.o
 TARGET=waveshaper
 
